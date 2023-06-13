@@ -1,3 +1,11 @@
+import { BrowserRouter } from "react-router-dom";
+
+import { AppRouter } from "./router";
+
 export const CalendarApp = () => {
-  return <h1>MERN Calendar</h1>;
+  return (
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  );
 };
