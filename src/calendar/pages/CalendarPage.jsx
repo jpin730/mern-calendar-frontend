@@ -9,7 +9,7 @@ import { localizer } from "../../helpers";
 
 export const CalendarPage = () => {
   const { openDateModal } = useUiStore();
-  const { events } = useCalendarStore();
+  const { events, setActiveEvent } = useCalendarStore();
   const [lastView, setLastView] = useState(
     localStorage.getItem("lastView") || "week"
   );
@@ -30,8 +30,7 @@ export const CalendarPage = () => {
   };
 
   const onSelect = (event) => {
-    console.log({ click: event });
-    // setActiveEvent( event );
+    setActiveEvent(event);
   };
 
   const onViewChanged = (event) => {
