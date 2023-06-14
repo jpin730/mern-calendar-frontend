@@ -5,7 +5,7 @@ import { useCalendarStore, useUiStore } from "../../hooks";
 import "./FabAddNew.css";
 
 export const FabAddNew = () => {
-  const { openDateModal } = useUiStore();
+  const { openDateModal, isDateModalOpen } = useUiStore();
   const { setActiveEvent } = useCalendarStore();
 
   const handleClickNew = () => {
@@ -24,8 +24,15 @@ export const FabAddNew = () => {
   };
 
   return (
-    <button className="btn btn-primary shadow fab" onClick={handleClickNew}>
-      <i className="fas fa-plus"></i>
-    </button>
+    <>
+      {!isDateModalOpen && (
+        <button
+          className="btn btn-primary shadow fab-add-new"
+          onClick={handleClickNew}
+        >
+          <i className="fas fa-plus"></i>
+        </button>
+      )}
+    </>
   );
 };
