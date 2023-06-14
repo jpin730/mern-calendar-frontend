@@ -4,12 +4,13 @@ import { useState } from "react";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import { CalendarEvent, Navbar } from "../components";
+import { CalendarEvent, CalendarModal, Navbar } from "../components";
 import { localizer } from "../../helpers";
 
 const events = [
   {
     title: "Boss' Birthday",
+    notes: "Some notes",
     start: new Date(),
     end: addHours(new Date(), 2),
   },
@@ -67,6 +68,8 @@ export const CalendarPage = () => {
           onView={onViewChanged}
         />
       </div>
+
+      <CalendarModal />
     </>
   );
 };
