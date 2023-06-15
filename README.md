@@ -25,3 +25,7 @@ yarn test
 ## Deployed app
 
 https://jpin730.github.io/mern-calendar-frontend
+
+## Backend repo
+
+https://github.com/jpin730/mern-calendar-backend
