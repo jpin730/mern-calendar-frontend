@@ -24,7 +24,7 @@ yarn test
 
 ## Deployed app
 
-https://jpin730.github.io/mern-calendar-frontend
+https://jpin730-mern-calendar.up.railway.app
 
 ## Backend repo
 
