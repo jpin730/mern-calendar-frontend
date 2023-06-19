@@ -14,6 +14,7 @@ import { calendarApi } from "../api";
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
   const { events, activeEvent } = useSelector((state) => state.calendar);
+  const { user } = useSelector((state) => state.auth);
 
   const setActiveEvent = (calendarEvent) => {
     dispatch(onSetActiveEvent(calendarEvent));
@@ -23,18 +24,25 @@ export const useCalendarStore = () => {
     try {
       if (calendarEvent.id) {
         await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
-        dispatch(onUpdateEvent({ ...calendarEvent }));
+        dispatch(onUpdateEvent({ ...calendarEvent, user }));
       } else {
         const { data } = await calendarApi.post("/events", calendarEvent);
-        dispatch(onAddNewEvent({ ...calendarEvent, id: data.createdEvent.id }));
+        dispatch(
+          onAddNewEvent({ ...calendarEvent, id: data.createdEvent.id, user })
+        );
       }
     } catch (error) {
       Swal.fire("Error on saving", error?.response?.data?.msg || "", "error");
     }
   };
 
-  const startDeletingEvent = () => {
-    dispatch(onDeleteEvent());
+  const startDeletingEvent = async () => {
+    try {
+      await calendarApi.delete(`/events/${activeEvent.id}`);
+      dispatch(onDeleteEvent());
+    } catch (error) {
+      Swal.fire("Error on deleting", error?.response?.data?.msg || "", "error");
+    }
   };
 
   const startLoadingEvents = async () => {

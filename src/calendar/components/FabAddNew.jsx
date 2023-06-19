@@ -1,6 +1,5 @@
-import { addHours } from "date-fns";
-
 import { useCalendarStore, useUiStore } from "../../hooks";
+import { emptyCalendarEvent } from "../constants";
 
 import "./FabAddNew.css";
 
@@ -9,15 +8,7 @@ export const FabAddNew = () => {
   const { setActiveEvent } = useCalendarStore();
 
   const handleClickNew = () => {
-    const todayDate = new Date();
-    todayDate.setHours(0, 0, 0, 0);
-
-    setActiveEvent({
-      title: "",
-      notes: "",
-      start: todayDate,
-      end: addHours(todayDate, 1),
-    });
+    setActiveEvent(emptyCalendarEvent);
     openDateModal();
   };
 

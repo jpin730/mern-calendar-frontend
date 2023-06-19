@@ -7,16 +7,20 @@ import {
   CalendarEvent,
   CalendarModal,
   FabAddNew,
+  FabClearSelection,
   FabDelete,
   Navbar,
 } from "../components";
 import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 import { localizer } from "../../helpers";
 
+import "./CalendarPage.css";
+
 export const CalendarPage = () => {
   const { user } = useAuthStore();
   const { openDateModal } = useUiStore();
-  const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
+  const { events, activeEvent, setActiveEvent, startLoadingEvents } =
+    useCalendarStore();
   const [lastView, setLastView] = useState(
     localStorage.getItem("lastView") || "week"
   );
@@ -26,13 +30,15 @@ export const CalendarPage = () => {
   }, []);
 
   const eventStyleGetter = (event) => {
+    const isSelected = activeEvent?.id === event.id;
+
     const isOwnEvent =
-      user.uid === event.user.id || user.uid === event.user._id;
+      user.uid === event?.user?.uid || user.uid === event?.user?._id;
 
     const style = {
       backgroundColor: isOwnEvent ? "#347CF7" : "#465660",
       borderRadius: 0,
-      opacity: 0.8,
+      opacity: isSelected ? 1 : 0.7,
       color: "white",
     };
 
@@ -79,6 +85,8 @@ export const CalendarPage = () => {
       <FabAddNew />
 
       <FabDelete />
+
+      <FabClearSelection />
     </>
   );
 };

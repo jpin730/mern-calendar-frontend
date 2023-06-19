@@ -4,7 +4,8 @@ import ReactDatePicker from "react-datepicker";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
 
-import { useCalendarStore, useUiStore } from "../../hooks";
+import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
+import { emptyCalendarEvent } from "../constants";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./CalendarModal.css";
@@ -25,13 +26,23 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
   const { isDateModalOpen, closeDateModal } = useUiStore();
   const { activeEvent, startSavingEvent, setActiveEvent } = useCalendarStore();
+  const { user } = useAuthStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formValues, setFormValues] = useState({ ...activeEvent });
+  const [formValues, setFormValues] = useState(emptyCalendarEvent);
 
   const titleClass = useMemo(
     () => (formSubmitted && formValues.title.length === 0 ? "is-invalid" : ""),
     [formValues.title, formSubmitted]
+  );
+
+  const canSave = useMemo(
+    () =>
+      !!activeEvent &&
+      (!activeEvent.id ||
+        user.uid === activeEvent?.user?.uid ||
+        user.uid === activeEvent?.user?._id),
+    [activeEvent]
   );
 
   useEffect(() => {
@@ -95,7 +106,7 @@ export const CalendarModal = () => {
       closeTimeoutMS={200}
     >
       <div className="p-3">
-        <h2> New event </h2>
+        <h2> {activeEvent?.id ? "Edit Event" : "New event"} </h2>
         <hr />
         <form onSubmit={onSubmit}>
           <div className="form-group mb-3">
@@ -104,6 +115,7 @@ export const CalendarModal = () => {
               showTimeSelect
               className="form-control"
               dateFormat="Pp"
+              readOnly={!canSave}
               selected={formValues.start}
               onChange={(event) => onDateChanged(event, "start")}
             />
@@ -114,6 +126,7 @@ export const CalendarModal = () => {
               showTimeSelect
               className="form-control"
               dateFormat="Pp"
+              readOnly={!canSave}
               minDate={formValues.start}
               selected={formValues.end}
               onChange={(event) => onDateChanged(event, "end")}
@@ -127,6 +140,7 @@ export const CalendarModal = () => {
               placeholder="A brief description"
               name="title"
               autoComplete="off"
+              readOnly={!canSave}
               value={formValues.title}
               onChange={onInputChanged}
             />
@@ -140,6 +154,7 @@ export const CalendarModal = () => {
               placeholder="Additional information (optional)"
               rows="5"
               name="notes"
+              readOnly={!canSave}
               value={formValues.notes}
               onChange={onInputChanged}
             ></textarea>
@@ -147,6 +162,7 @@ export const CalendarModal = () => {
           <button
             type="submit"
             className="btn btn-outline-primary d-block ms-auto px-5 mt-4"
+            disabled={!canSave}
           >
             <i className="far fa-save me-2"></i>
             <span>Save</span>
