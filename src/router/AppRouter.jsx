@@ -4,7 +4,8 @@ import { AUTH_STATUS, LoginPage } from "../auth";
 import { CalendarPage } from "../calendar";
 
 export const AppRouter = () => {
-  const authStatus = AUTH_STATUS.authenticated;
+  const authStatus = AUTH_STATUS.notAuthenticated;
+
   const isAuthenticated = authStatus === AUTH_STATUS.authenticated;
 
   return (
