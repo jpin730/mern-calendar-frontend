@@ -1,10 +1,44 @@
+import { useForm } from "../../hooks";
+
+const loginFormFields = {
+  loginEmail: "",
+  loginPassword: "",
+};
+
+const registerFormFields = {
+  registerName: "",
+  registerEmail: "",
+  registerPassword: "",
+  registerPasswordConfirm: "",
+};
+
 export const LoginPage = () => {
+  const {
+    loginEmail,
+    loginPassword,
+    onInputChange: onLoginInputChange,
+  } = useForm(loginFormFields);
+  const {
+    registerName,
+    registerEmail,
+    registerPassword,
+    registerPasswordConfirm,
+    onInputChange: onRegisterInputChange,
+  } = useForm(registerFormFields);
+
   const onLoginSubmit = (event) => {
     event.preventDefault();
+    console.log({ loginEmail, loginPassword });
   };
 
   const onRegisterSubmit = (event) => {
     event.preventDefault();
+    console.log({
+      registerName,
+      registerEmail,
+      registerPassword,
+      registerPasswordConfirm,
+    });
   };
 
   return (
@@ -20,6 +54,9 @@ export const LoginPage = () => {
                   type="email"
                   className="form-control"
                   placeholder="Email"
+                  name="loginEmail"
+                  value={loginEmail}
+                  onChange={onLoginInputChange}
                 />
               </div>
               <div className="form-group mb-3">
@@ -27,6 +64,9 @@ export const LoginPage = () => {
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  name="loginPassword"
+                  value={loginPassword}
+                  onChange={onLoginInputChange}
                 />
               </div>
               <div className="form-group mb-3 text-end">
@@ -47,6 +87,9 @@ export const LoginPage = () => {
                   type="text"
                   className="form-control"
                   placeholder="Name"
+                  name="registerName"
+                  value={registerName}
+                  onChange={onRegisterInputChange}
                 />
               </div>
               <div className="form-group mb-3">
@@ -54,6 +97,9 @@ export const LoginPage = () => {
                   type="email"
                   className="form-control"
                   placeholder="Email"
+                  name="registerEmail"
+                  value={registerEmail}
+                  onChange={onRegisterInputChange}
                 />
               </div>
               <div className="form-group mb-3">
@@ -61,6 +107,9 @@ export const LoginPage = () => {
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  name="registerPassword"
+                  value={registerPassword}
+                  onChange={onRegisterInputChange}
                 />
               </div>
               <div className="form-group mb-3">
@@ -68,6 +117,9 @@ export const LoginPage = () => {
                   type="password"
                   className="form-control"
                   placeholder="Confirm password"
+                  name="registerPasswordConfirm"
+                  value={registerPasswordConfirm}
+                  onChange={onRegisterInputChange}
                 />
               </div>
               <div className="form-group mb-3 text-end">
