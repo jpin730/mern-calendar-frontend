@@ -37,11 +37,17 @@ export const calendarSlice = createSlice({
         }
       });
     },
+    onClearCalendar: (state) => {
+      state.isLoadingEvents = true;
+      state.events = [];
+      state.activeEvent = null;
+    },
   },
 });
 
 export const {
   onAddNewEvent,
+  onClearCalendar,
   onDeleteEvent,
   onLoadEvents,
   onSetActiveEvent,
