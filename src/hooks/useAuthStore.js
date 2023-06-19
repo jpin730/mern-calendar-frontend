@@ -21,8 +21,30 @@ export const useAuthStore = () => {
         new Date().getTime
       );
       dispatch(onLogin({ name: data.name, uid: data.uid }));
-    } catch (error) {
+    } catch {
       dispatch(onLogout("Wrong credentials"));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      });
+    }
+  };
+
+  const startRegister = async ({ name, email, password }) => {
+    dispatch(onChecking());
+    try {
+      const { data } = await calendarApi.post("/auth/user", {
+        name,
+        email,
+        password,
+      });
+      localStorage.setItem(AUTH_LOCAL_STORAGE.token, data.token);
+      localStorage.setItem(
+        AUTH_LOCAL_STORAGE.tokenInitDate,
+        new Date().getTime
+      );
+      dispatch(onLogin({ name: data.name, uid: data.uid }));
+    } catch (error) {
+      dispatch(onLogout(error?.response?.data?.msg || "Registration error"));
       setTimeout(() => {
         dispatch(clearErrorMessage());
       });
@@ -34,5 +56,6 @@ export const useAuthStore = () => {
     user,
     errorMessage,
     startLogin,
+    startRegister,
   };
 };
