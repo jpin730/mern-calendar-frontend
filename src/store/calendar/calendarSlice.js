@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const calendarSlice = createSlice({
   name: "calendar",
   initialState: {
+    isLoadingEvents: true,
     events: [],
     activeEvent: null,
   },
@@ -27,8 +28,22 @@ export const calendarSlice = createSlice({
         state.activeEvent = null;
       }
     },
+    onLoadEvents: (state, { payload = [] }) => {
+      state.isLoadingEvents = false;
+      payload.forEach((event) => {
+        const exists = state.events.some((dbEvent) => dbEvent.id === event.id);
+        if (!exists) {
+          state.events.push(event);
+        }
+      });
+    },
   },
 });
 
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent } =
-  calendarSlice.actions;
+export const {
+  onAddNewEvent,
+  onDeleteEvent,
+  onLoadEvents,
+  onSetActiveEvent,
+  onUpdateEvent,
+} = calendarSlice.actions;
