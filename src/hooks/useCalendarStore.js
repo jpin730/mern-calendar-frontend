@@ -6,6 +6,7 @@ import {
   onSetActiveEvent,
   onUpdateEvent,
 } from "../store/calendar/calendarSlice";
+import { calendarApi } from "../api";
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ export const useCalendarStore = () => {
     if (calendarEvent._id) {
       dispatch(onUpdateEvent({ ...calendarEvent }));
     } else {
-      dispatch(onAddNewEvent({ ...calendarEvent, _id: new Date().getTime() }));
+      const { data } = await calendarApi.post("/events", calendarEvent);
+      dispatch(onAddNewEvent({ ...calendarEvent, id: data.createdEvent.id }));
     }
   };
 

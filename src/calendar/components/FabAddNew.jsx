@@ -9,16 +9,14 @@ export const FabAddNew = () => {
   const { setActiveEvent } = useCalendarStore();
 
   const handleClickNew = () => {
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+
     setActiveEvent({
       title: "",
       notes: "",
-      start: new Date(),
-      end: addHours(new Date(), 2),
-      bgColor: "#fafafa",
-      user: {
-        _id: "some-id",
-        name: "Jaime Pineda",
-      },
+      start: todayDate,
+      end: addHours(todayDate, 1),
     });
     openDateModal();
   };

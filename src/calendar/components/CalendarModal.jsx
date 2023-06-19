@@ -27,12 +27,7 @@ export const CalendarModal = () => {
   const { activeEvent, startSavingEvent, setActiveEvent } = useCalendarStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formValues, setFormValues] = useState({
-    title: "",
-    notes: "",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-  });
+  const [formValues, setFormValues] = useState({ ...activeEvent });
 
   const titleClass = useMemo(
     () => (formSubmitted && formValues.title.length === 0 ? "is-invalid" : ""),
@@ -44,6 +39,14 @@ export const CalendarModal = () => {
       setFormValues({ ...activeEvent });
     }
   }, [activeEvent]);
+
+  useEffect(() => {
+    const difference = differenceInSeconds(formValues.end, formValues.start);
+
+    if (isNaN(difference) || difference <= 0) {
+      setFormValues({ ...formValues, end: addHours(formValues.start, 1) });
+    }
+  }, [formValues.start]);
 
   const onInputChanged = ({ target }) => {
     setFormValues({
