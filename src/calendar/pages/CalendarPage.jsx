@@ -10,10 +10,11 @@ import {
   FabDelete,
   Navbar,
 } from "../components";
-import { useCalendarStore, useUiStore } from "../../hooks";
+import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 import { localizer } from "../../helpers";
 
 export const CalendarPage = () => {
+  const { user } = useAuthStore();
   const { openDateModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
   const [lastView, setLastView] = useState(
@@ -24,9 +25,12 @@ export const CalendarPage = () => {
     startLoadingEvents();
   }, []);
 
-  const eventStyleGetter = (event, start, end, isSelected) => {
+  const eventStyleGetter = (event) => {
+    const isOwnEvent =
+      user.uid === event.user.id || user.uid === event.user._id;
+
     const style = {
-      backgroundColor: "#347cf7",
+      backgroundColor: isOwnEvent ? "#347CF7" : "#465660",
       borderRadius: 0,
       opacity: 0.8,
       color: "white",
