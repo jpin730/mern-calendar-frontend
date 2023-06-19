@@ -51,11 +51,32 @@ export const useAuthStore = () => {
     }
   };
 
+  const checkAuthToken = async () => {
+    const token = localStorage.getItem(AUTH_LOCAL_STORAGE.token);
+    if (!token) {
+      return dispatch(onLogout());
+    }
+
+    try {
+      const { data } = await calendarApi.get("auth/token");
+      localStorage.setItem(AUTH_LOCAL_STORAGE.token, data.token);
+      localStorage.setItem(
+        AUTH_LOCAL_STORAGE.tokenInitDate,
+        new Date().getTime()
+      );
+      dispatch(onLogin({ name: data.name, uid: data.uid }));
+    } catch (error) {
+      localStorage.clear();
+      dispatch(onLogout());
+    }
+  };
+
   return {
     status,
     user,
     errorMessage,
     startLogin,
     startRegister,
+    checkAuthToken,
   };
 };
