@@ -18,7 +18,7 @@ export const useAuthStore = () => {
       localStorage.setItem(AUTH_LOCAL_STORAGE.token, data.token);
       localStorage.setItem(
         AUTH_LOCAL_STORAGE.tokenInitDate,
-        new Date().getTime
+        new Date().getTime()
       );
       dispatch(onLogin({ name: data.name, uid: data.uid }));
     } catch {
@@ -40,7 +40,7 @@ export const useAuthStore = () => {
       localStorage.setItem(AUTH_LOCAL_STORAGE.token, data.token);
       localStorage.setItem(
         AUTH_LOCAL_STORAGE.tokenInitDate,
-        new Date().getTime
+        new Date().getTime()
       );
       dispatch(onLogin({ name: data.name, uid: data.uid }));
     } catch (error) {
