@@ -24,7 +24,7 @@ yarn test
 
 ## Deployed app
 
-https://jpin730-mern-calendar-frontend.vercel.app
+https://mern-calendar-frontend-jpin730.vercel.app
 
 ## Backend repo
 
