@@ -4,8 +4,8 @@ import Swal from "sweetalert2";
 import { useAuthStore, useForm } from "../../hooks";
 
 const loginFormFields = {
-  loginEmail: "",
-  loginPassword: "",
+  loginEmail: "user@email.com",
+  loginPassword: "123456",
 };
 
 const registerFormFields = {
